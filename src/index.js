@@ -3,6 +3,7 @@ import Select from './components/select'
 import Accordion from "@/components/accordion";
 import MobileNav from "@/components/mobile-nav";
 import Nav from '@/components/nav';
+import Catalog from "@/components/catalog";
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +15,7 @@ if (document.readyState === 'loading') {
 
 function init() {
     new Nav('nav');
+    new Catalog('catalog__items')
     const sortEl = document.getElementById('sort')
     const sortCallback = (item) => {
         console.log(item)

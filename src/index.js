@@ -6,6 +6,7 @@ import Nav from '@/components/nav';
 import getCatalogItems from "@/api/getCatalogItems";
 import Catalog from "@/components/catalog";
 import getFilterItems from "@/api/getFilterItems";
+import Filter from "@/components/filter";
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -29,7 +30,9 @@ async function init() {
 
     const filterItems = await getFilterItems()
     console.log(filterItems)
-    //render filter items
+    const filtersRenderer= new Filter(document.getElementById('filter-items'))
+    filtersRenderer.renderFilters(filterItems)
+
 
     function filter() {
         const accordions = []
@@ -89,5 +92,7 @@ async function init() {
     const catalogItems = await getCatalogItems()
 
     catalog.renderItems(catalogItems)
+
+
 
 }

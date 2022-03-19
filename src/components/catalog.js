@@ -1,45 +1,52 @@
-import catalogData from "@/config/catalog-data";
-
 export default class Catalog {
     constructor(el) {
-        this.el = document.getElementById(el);
-
-        this.init();
+        this.el = el
     }
 
-    init() {
-        this.render();
+    renderItems(items) {
+        let itemsDom = ''
+
+        items.forEach(item => {
+            itemsDom += this.renderItem(item)
+        })
+
+        this.el.innerHTML = itemsDom
     }
 
-    render() {
-        let container="";
-        catalogData.forEach( item => {
-            container+=`<div class="card">
-                        <div class="card__image">
-                            <div class="card__icons">
-                                <div class="card__likeIcon">
-                                    <img src="/src/assets/img/like-icon.svg" alt="cartIcon">
-                                </div>
-                                <div class="card__cartIcon">
-                                    <img src="/src/assets/img/cartIcon.svg" alt="cartIcon">
-                                </div>
-                            </div>
-                            <div class="card__background" >
-                                <img src="/src/assets/img/${item.image}" alt="cartIcon">
-                            </div>
-                        </div>
-                        <div class="card__description">
-                            ${item.description}
-                        </div>
-                        <div class="card__price">
-                            <span>${item.price}</span>
-                            <img src="/src/assets/img/ruble-icon.svg" alt="roubleIcon">
-                        </div>
-                    </div>`
-        } );
+    renderItem(item) {
+        return `
+        <div class="product-card">
+            <div class="product-card__inner">
+                <div class="product-card__controls">
+                    <svg class="svg-grey" width="24" height="22">
+                        <use href="#hearth"></use>
+                    </svg>
 
-        this.el.innerHTML = container;
+                    <div class="product-card__basket ${item.inBasket ? 'product-card__basket_active' : ''}">
+                        <svg class="svg-primary" width="20" height="20">
+                            <use href="#basket"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <img class="product-card__image"
+                     src="${item.image}"
+                     alt="Изображение">
+
+                <div class="product-card__description">
+                    ${item.description}
+                </div>
+
+                <div class="product-card__price">
+                    <span>
+                        ${item.price}
+                    </span>
+
+                    <svg class="svg-primary" width="17" height="17">
+                        <use href="#rub"></use>
+                    </svg>
+                </div>
+            </div>
+        </div>`
     }
-
-
 }

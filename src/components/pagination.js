@@ -32,20 +32,33 @@ export default class Pagination {
 		this.onChange(page)
 	}
 
-	renderPaginationItems(currenPage, pageCount) {
+	renderPaginationItems(currentPage, pageCount) {
 		let html = '<div class="catalog__pagination-pages">';
-		for ( let i = 1; i <= pageCount; i++ ) {
-			html += this.renderPaginationItem(i, +currenPage);
+
+		html += this.renderPaginationItem(1, +currentPage);
+
+		if(currentPage>3) html += this.renderTripleDot();
+
+		for (let i=currentPage-1;i<=pageCount;i++){
+			if(i<2) continue;
+			html += this.renderPaginationItem(i, +currentPage)
+			if(i>=currentPage+1 && pageCount-currentPage>3){
+				html+=this.renderTripleDot();
+				html+=this.renderPaginationItem(+pageCount,+currentPage);
+				break;
+			}
 		}
+
 		html += '</div>'
 
-		html += this.renderButtons(currenPage, pageCount)
+		html += this.renderButtons(currentPage, pageCount)
 
 		this.el.innerHTML = html;
 	}
 
-	renderPaginationItem(page, currenPage) {
-		if ( page === currenPage ) {
+	renderPaginationItem(page, currentPage) {
+
+		if ( page === currentPage ) {
 			return `<button class="catalog__pagination-page catalog__pagination-page_select" data-page="${page}">
 						${page}
 					</button>`;
@@ -54,6 +67,12 @@ export default class Pagination {
 						${page}
 					</button>`;
 		}
+	}
+
+	renderTripleDot(){
+		return `<button class="catalog__pagination-page" data-page="...">
+								...
+					</button>`
 	}
 
 	renderButtons(currenPage, pageCount) {

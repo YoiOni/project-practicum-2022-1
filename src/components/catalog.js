@@ -5,6 +5,7 @@ import Select from "./select";
 import Cookie from "../utils/cookie";
 import {encodeURL} from "@/utils/url";
 import addBasketItem from "@/api/addBasketItem";
+import getBasketItems from "@/api/getBasketItems";
 
 export default class Catalog {
     constructor(el, filterEl, paginationEl) {
@@ -78,6 +79,7 @@ export default class Catalog {
 
                 await this.onMetaChange(false)
             })
+            await this.updateBasketLength()
         } catch (e) {
             console.log(e)
         } finally {
@@ -191,7 +193,14 @@ export default class Catalog {
             
             if (result.ok) {
                 element.classList.toggle('product-card__basket_active')
+                await this.updateBasketLength()
             }
         })
+    }
+
+    async updateBasketLength() {
+        const basket = await getBasketItems()
+
+        document.getElementById('basket-length').innerText = basket.items.length
     }
 }
